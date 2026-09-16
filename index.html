@@ -4,18 +4,16 @@
 <head>
 
   <!-- =========================================
-       基本网页设置
+       基本设置
        ========================================= -->
 
   <meta charset="UTF-8">
 
-  <!-- 手机屏幕适配 -->
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
   >
 
-  <!-- 浏览器标签页标题 -->
   <title>Govee Table Lamp</title>
 
 
@@ -26,20 +24,15 @@
 
   <script
     type="module"
-    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js">
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js">
   </script>
 
 
   <!-- =========================================
-       CSS
-       中文：网页外观
+       页面样式
        ========================================= -->
 
   <style>
-
-    /* =========================================
-       整个网页
-       ========================================= */
 
     body {
 
@@ -53,10 +46,6 @@
 
     }
 
-
-    /* =========================================
-       页面主体
-       ========================================= */
 
     .page {
 
@@ -75,10 +64,6 @@
     }
 
 
-    /* =========================================
-       标题
-       ========================================= */
-
     h1 {
 
       margin: 0 0 8px 0;
@@ -89,10 +74,6 @@
 
     }
 
-
-    /* =========================================
-       副标题
-       ========================================= */
 
     .description {
 
@@ -105,10 +86,6 @@
     }
 
 
-    /* =========================================
-       3D 模型区域
-       ========================================= */
-
     model-viewer {
 
       width: 100%;
@@ -117,14 +94,8 @@
 
       background: #111111;
 
-      --poster-color: #111111;
-
     }
 
-
-    /* =========================================
-       普通场景按钮
-       ========================================= */
 
     .buttons {
 
@@ -159,9 +130,7 @@
 
       color: white;
 
-      transition:
-        background 0.2s,
-        transform 0.15s;
+      transition: 0.2s;
 
     }
 
@@ -181,7 +150,7 @@
 
 
     /* =========================================
-       AR 主按钮
+       AR 按钮
        ========================================= */
 
     .ar-button {
@@ -192,9 +161,9 @@
 
       align-items: center;
 
-      margin-top: 22px;
-
       padding: 15px 28px;
+
+      margin-top: 10px;
 
       border-radius: 999px;
 
@@ -206,40 +175,16 @@
 
       font-weight: 600;
 
-      cursor: pointer;
-
       border: none;
 
-      transition:
-        transform 0.15s,
-        opacity 0.2s;
+      cursor: pointer;
 
     }
 
 
     .ar-button:hover {
 
-      opacity: 0.9;
-
-    }
-
-
-    .ar-button:active {
-
-      transform: scale(0.97);
-
-    }
-
-
-    /* =========================================
-       AR 里面的按钮
-       ========================================= */
-
-    .ar-button::before {
-
-      content: "✦";
-
-      margin-right: 8px;
+      background: #eeeeee;
 
     }
 
@@ -250,11 +195,11 @@
 
     .status {
 
-      margin-top: 20px;
-
-      font-size: 15px;
+      margin-top: 18px;
 
       color: #aaaaaa;
+
+      font-size: 14px;
 
       min-height: 22px;
 
@@ -262,19 +207,37 @@
 
 
     /* =========================================
-       手机提示
+       错误提示
        ========================================= */
 
-    .ar-note {
+    .error-message {
 
-      margin-top: 10px;
+      display: none;
 
-      color: #777777;
+      margin: 15px auto 0;
 
-      font-size: 13px;
+      max-width: 500px;
+
+      padding: 12px 16px;
+
+      border-radius: 12px;
+
+      background: #3a2222;
+
+      color: #ffcccc;
+
+      font-size: 14px;
+
+      line-height: 1.6;
 
     }
 
+
+    .error-message.show {
+
+      display: block;
+
+    }
 
   </style>
 
@@ -296,19 +259,13 @@
     </h1>
 
 
-    <!-- =========================================
-         使用提示
-         ========================================= -->
-
     <div class="description">
-
       拖动旋转 · 滚轮缩放
-
     </div>
 
 
     <!-- =========================================
-         3D + AR 模型
+         3D + AR
          ========================================= -->
 
     <model-viewer
@@ -331,7 +288,7 @@
 
       ar
 
-      ar-modes="webxr scene-viewer quick-look"
+      ar-modes="scene-viewer"
 
       ar-placement="floor"
 
@@ -339,18 +296,15 @@
 
 
       <!-- =======================================
-           AR 按钮
-
-           slot="ar-button"
-           告诉 Model Viewer：
-           这是启动 AR 的按钮
+           自定义 AR 按钮
            ======================================= -->
 
       <button
         class="ar-button"
         slot="ar-button">
 
-        TRY IN YOUR ROOM
+        ✦ TRY IN YOUR ROOM
+
       </button>
 
 
@@ -358,7 +312,7 @@
 
 
     <!-- =========================================
-         场景按钮
+         灯光场景
          ========================================= -->
 
     <div class="buttons">
@@ -388,7 +342,7 @@
 
 
     <!-- =========================================
-         状态文字
+         状态
          ========================================= -->
 
     <div
@@ -400,9 +354,17 @@
     </div>
 
 
-    <div class="ar-note">
+    <!-- =========================================
+         AR 错误提示
+         ========================================= -->
 
-      建议使用手机打开并尝试 AR
+    <div
+      id="arError"
+      class="error-message">
+
+      当前设备或浏览器没有成功启动 AR。
+      <br>
+      请确认你正在使用 Android Chrome，并检查 AR 服务。
 
     </div>
 
@@ -413,14 +375,13 @@
 
   <!-- =========================================
        JavaScript
-       中文：网页交互程序
        ========================================= -->
 
   <script>
 
 
     /* =========================================
-       找到 3D 模型
+       获取 3D 模型
        ========================================= */
 
     const viewer =
@@ -437,488 +398,474 @@
 
 
     /* =========================================
-       模型加载完成
+       找到状态文字
        ========================================= */
 
-    viewer.addEventListener("load", () => {
+    const statusText =
+      document.getElementById("status");
 
 
-      console.log("3D 模型加载完成");
+    /* =========================================
+       AR 错误框
+       ========================================= */
 
+    const arError =
+      document.getElementById("arError");
 
-      /* =========================================
-         获取所有材质
-         ========================================= */
 
-      const materials =
-        viewer.model.materials;
+    /* =========================================
+       模型加载
+       ========================================= */
 
+    viewer.addEventListener(
+      "load",
+      () => {
 
-      console.log(
-        "材质数量：",
-        materials.length
-      );
 
-
-      /* =========================================
-         根据我们之前测试成功的模型结构
-
-         materials[0] = 灯罩
-         materials[1] = 底座
-         materials[2] = LED
-
-         所以：
-         ========================================= */
-
-      const shadeMaterial =
-        materials[0];
-
-
-      const baseMaterial =
-        materials[1];
-
-
-      const ledMaterial =
-        materials[2];
-
-
-      /* =========================================
-         检查 LED
-         ========================================= */
-
-      if (!ledMaterial) {
-
-        document.getElementById("status").textContent =
-          "没有找到 LED 材质";
-
-        console.error(
-          "没有找到 materials[2]"
-        );
-
-        return;
-
-      }
-
-
-      /* =========================================
-         底座金属材质
-         ========================================= */
-
-      if (baseMaterial) {
-
-
-        /*
-        基础颜色
-        深灰色
-        */
-
-        baseMaterial
-          .pbrMetallicRoughness
-          .setBaseColorFactor([
-
-            0.12,
-
-            0.12,
-
-            0.12,
-
-            1.0
-
-          ]);
-
-
-        /*
-        金属度
-        */
-
-        baseMaterial
-          .pbrMetallicRoughness
-          .setMetallicFactor(
-
-            0.9
-
-          );
-
-
-        /*
-        粗糙度
-
-        越低越光亮
-        */
-
-        baseMaterial
-          .pbrMetallicRoughness
-          .setRoughnessFactor(
-
-            0.22
-
-          );
-
-      }
-
-
-      /* =========================================
-         灯罩材质
-         ========================================= */
-
-      if (shadeMaterial) {
-
-
-        shadeMaterial
-          .pbrMetallicRoughness
-          .setMetallicFactor(
-
-            0.0
-
-          );
-
-
-        shadeMaterial
-          .pbrMetallicRoughness
-          .setRoughnessFactor(
-
-            0.38
-
-          );
-
-      }
-
-
-      /* =========================================
-         初始灯光
-         ========================================= */
-
-      setLightColor(
-
-        1.0,
-
-        0.45,
-
-        0.08,
-
-        2.0
-
-      );
-
-
-      /* =========================================
-         状态
-         ========================================= */
-
-      document.getElementById("status").textContent =
-        "LED 已连接 · AR 已准备";
-
-
-      /* =========================================
-         Relax
-         放松
-         ========================================= */
-
-      document
-        .getElementById("relaxButton")
-        .addEventListener(
-          "click",
-          () => {
-
-
-            stopAllAnimations();
-
-
-            const baseR =
-              1.0;
-
-
-            const baseG =
-              0.38;
-
-
-            const baseB =
-              0.05;
-
-
-            let time = 0;
-
-
-            breathingTimer =
-              setInterval(
-                () => {
-
-
-                  time += 0.03;
-
-
-                  const brightness =
-
-                    (
-                      Math.sin(time) + 1
-                    ) / 2;
-
-
-                  const strength =
-
-                    0.8 +
-                    brightness * 1.7;
-
-
-                  setLightColor(
-
-                    baseR,
-
-                    baseG,
-
-                    baseB,
-
-                    strength
-
-                  );
-
-
-                },
-
-                50
-
-              );
-
-
-            document
-              .getElementById("status")
-              .textContent =
-
-              "当前场景：Relax · 放松";
-
-
-          }
-
+        console.log(
+          "3D 模型加载完成"
         );
 
 
-      /* =========================================
-         Movie
-         电影
-         ========================================= */
+        /* =====================================
+           获取材质
+           ===================================== */
 
-      document
-        .getElementById("movieButton")
-        .addEventListener(
-          "click",
-          () => {
+        const materials =
+          viewer.model.materials;
 
 
-            stopAllAnimations();
+        /*
+        materials[0]
+        = 灯罩
+
+        materials[1]
+        = 底座
+
+        materials[2]
+        = LED
+        */
 
 
-            setLightColor(
+        const shadeMaterial =
+          materials[0];
 
-              1.0,
 
-              0.18,
+        const baseMaterial =
+          materials[1];
 
-              0.03,
 
-              1.6
+        const ledMaterial =
+          materials[2];
 
+
+        /* =====================================
+           LED 检查
+           ===================================== */
+
+        if (!ledMaterial) {
+
+          statusText.textContent =
+            "没有找到 LED 材质";
+
+          return;
+
+        }
+
+
+        /* =====================================
+           设置底座金属
+           ===================================== */
+
+        if (baseMaterial) {
+
+
+          baseMaterial
+            .pbrMetallicRoughness
+            .setBaseColorFactor([
+
+              0.12,
+              0.12,
+              0.12,
+              1.0
+
+            ]);
+
+
+          baseMaterial
+            .pbrMetallicRoughness
+            .setMetallicFactor(
+              0.9
             );
 
 
-            document
-              .getElementById("status")
-              .textContent =
+          baseMaterial
+            .pbrMetallicRoughness
+            .setRoughnessFactor(
+              0.22
+            );
 
-              "当前场景：Movie · 电影";
-
-
-          }
-
-        );
+        }
 
 
-      /* =========================================
-         Gaming
-         游戏
-         ========================================= */
+        /* =====================================
+           设置灯罩
+           ===================================== */
 
-      document
-        .getElementById("gamingButton")
-        .addEventListener(
-          "click",
-          () => {
+        if (shadeMaterial) {
 
 
-            stopAllAnimations();
+          shadeMaterial
+            .pbrMetallicRoughness
+            .setMetallicFactor(
+              0
+            );
 
 
-            let phase = 0;
+          shadeMaterial
+            .pbrMetallicRoughness
+            .setRoughnessFactor(
+              0.38
+            );
+
+        }
 
 
-            breathingTimer =
+        /* =====================================
+           初始灯光
+           ===================================== */
 
-              setInterval(
-                () => {
+        setLightColor(
 
-
-                  phase += 0.05;
-
-
-                  const value =
-
-                    (
-                      Math.sin(phase) + 1
-                    ) / 2;
-
-
-                  const r =
-
-                    0.35 +
-                    value * 0.35;
-
-
-                  const g =
-
-                    0.05;
-
-
-                  const b =
-
-                    0.8 +
-                    value * 0.2;
-
-
-                  setLightColor(
-
-                    r,
-
-                    g,
-
-                    b,
-
-                    2.5
-
-                  );
-
-
-                },
-
-                60
-
-              );
-
-
-            document
-              .getElementById("status")
-              .textContent =
-
-              "当前场景：Gaming · 游戏";
-
-
-          }
+          1.0,
+          0.45,
+          0.08,
+          2.0
 
         );
 
 
-      /* =========================================
-         RGB
-         ========================================= */
-
-      document
-        .getElementById("rgbButton")
-        .addEventListener(
-          "click",
-          () => {
+        statusText.textContent =
+          "LED 已连接 · Scene Viewer AR 已准备";
 
 
-            stopAllAnimations();
+        /* =====================================
+           Relax
+           ===================================== */
+
+        document
+          .getElementById("relaxButton")
+          .addEventListener(
+            "click",
+            () => {
 
 
-            let hue = 0;
+              stopAllAnimations();
 
 
-            rgbTimer =
+              const r = 1.0;
 
-              setInterval(
-                () => {
+              const g = 0.38;
 
-
-                  hue += 1;
+              const b = 0.05;
 
 
-                  if (hue >= 360) {
-
-                    hue = 0;
-
-                  }
+              let time = 0;
 
 
-                  const rgb =
+              breathingTimer =
+                setInterval(
+                  () => {
 
-                    hslToRgb(
 
-                      hue / 360,
+                    time += 0.03;
 
-                      1,
 
-                      0.5
+                    const brightness =
+                      (
+                        Math.sin(time) + 1
+                      ) / 2;
+
+
+                    const strength =
+                      0.8 +
+                      brightness * 1.7;
+
+
+                    setLightColor(
+
+                      r,
+                      g,
+                      b,
+                      strength
 
                     );
 
 
-                  setLightColor(
-
-                    rgb[0],
-
-                    rgb[1],
-
-                    rgb[2],
-
-                    3
-
-                  );
+                  },
+                  50
+                );
 
 
-                },
+              statusText.textContent =
+                "当前场景：Relax · 放松";
 
-                50
+            }
+          );
+
+
+        /* =====================================
+           Movie
+           ===================================== */
+
+        document
+          .getElementById("movieButton")
+          .addEventListener(
+            "click",
+            () => {
+
+
+              stopAllAnimations();
+
+
+              setLightColor(
+
+                1.0,
+                0.18,
+                0.03,
+                1.6
 
               );
 
 
-            document
-              .getElementById("status")
-              .textContent =
+              statusText.textContent =
+                "当前场景：Movie · 电影";
 
-              "当前场景：RGB";
-
-
-          }
-
-        );
+            }
+          );
 
 
-    });
+        /* =====================================
+           Gaming
+           ===================================== */
+
+        document
+          .getElementById("gamingButton")
+          .addEventListener(
+            "click",
+            () => {
+
+
+              stopAllAnimations();
+
+
+              let phase = 0;
+
+
+              breathingTimer =
+                setInterval(
+                  () => {
+
+
+                    phase += 0.05;
+
+
+                    const value =
+                      (
+                        Math.sin(phase) + 1
+                      ) / 2;
+
+
+                    const r =
+                      0.35 +
+                      value * 0.35;
+
+
+                    const g =
+                      0.05;
+
+
+                    const b =
+                      0.8 +
+                      value * 0.2;
+
+
+                    setLightColor(
+
+                      r,
+                      g,
+                      b,
+                      2.5
+
+                    );
+
+
+                  },
+                  60
+                );
+
+
+              statusText.textContent =
+                "当前场景：Gaming · 游戏";
+
+            }
+          );
+
+
+        /* =====================================
+           RGB
+           ===================================== */
+
+        document
+          .getElementById("rgbButton")
+          .addEventListener(
+            "click",
+            () => {
+
+
+              stopAllAnimations();
+
+
+              let hue = 0;
+
+
+              rgbTimer =
+                setInterval(
+                  () => {
+
+
+                    hue += 1;
+
+
+                    if (hue >= 360) {
+
+                      hue = 0;
+
+                    }
+
+
+                    const rgb =
+                      hslToRgb(
+
+                        hue / 360,
+                        1,
+                        0.5
+
+                      );
+
+
+                    setLightColor(
+
+                      rgb[0],
+                      rgb[1],
+                      rgb[2],
+                      3
+
+                    );
+
+
+                  },
+                  50
+                );
+
+
+              statusText.textContent =
+                "当前场景：RGB";
+
+            }
+          );
+
+
+      }
+    );
 
 
     /* =========================================
-       设置灯光颜色
+       AR 状态
+       ========================================= */
+
+    viewer.addEventListener(
+      "ar-status",
+      (event) => {
+
+
+        console.log(
+          "AR 状态：",
+          event.detail.status
+        );
+
+
+        const currentStatus =
+          event.detail.status;
+
+
+        if (
+          currentStatus ===
+          "session-started"
+        ) {
+
+
+          statusText.textContent =
+            "AR 已启动，请移动手机寻找水平面";
+
+
+          arError.classList.remove(
+            "show"
+          );
+
+        }
+
+
+        if (
+          currentStatus ===
+          "object-placed"
+        ) {
+
+
+          statusText.textContent =
+            "灯已经放入你的空间";
+
+
+          arError.classList.remove(
+            "show"
+          );
+
+        }
+
+
+        if (
+          currentStatus ===
+          "failed"
+        ) {
+
+
+          statusText.textContent =
+            "AR 启动失败";
+
+
+          arError.classList.add(
+            "show"
+          );
+
+        }
+
+
+      }
+    );
+
+
+    /* =========================================
+       灯光控制函数
        ========================================= */
 
     function setLightColor(
 
       r,
-
       g,
-
       b,
-
       strength = 3
 
     ) {
-
-
-      /*
-      基础颜色
-      */
-
-      const viewer =
-        document.getElementById("lampViewer");
 
 
       if (
@@ -935,39 +882,32 @@
         viewer.model.materials[2];
 
 
+      /* 基础颜色 */
+
       ledMaterial
         .pbrMetallicRoughness
         .setBaseColorFactor([
 
           r,
-
           g,
-
           b,
-
           1.0
 
         ]);
 
 
-      /*
-      自发光颜色
-      */
+      /* 自发光 */
 
       ledMaterial.setEmissiveFactor([
 
         r,
-
         g,
-
         b
 
       ]);
 
 
-      /*
-      自发光强度
-      */
+      /* 自发光强度 */
 
       ledMaterial.setEmissiveStrength(
 
@@ -979,7 +919,7 @@
 
 
     /* =========================================
-       停止动画
+       停止所有动画
        ========================================= */
 
     function stopAllAnimations() {
@@ -1016,46 +956,28 @@
     function hslToRgb(
 
       h,
-
       s,
-
       l
 
     ) {
 
 
-      let r;
-
-      let g;
-
-      let b;
-
-
       if (s === 0) {
 
         return [
-
           l,
-
           l,
-
           l
-
         ];
 
       }
 
 
       const hue2rgb =
-
         function(
-
           p,
-
           q,
-
           t
-
         ) {
 
 
@@ -1076,15 +998,10 @@
           if (t < 1 / 6) {
 
             return (
-
               p +
-
               (q - p) *
-
               6 *
-
               t
-
             );
 
           }
@@ -1100,20 +1017,13 @@
           if (t < 2 / 3) {
 
             return (
-
               p +
-
               (q - p) *
-
               (
-
                 2 / 3 -
                 t
-
               ) *
-
               6
-
             );
 
           }
@@ -1125,66 +1035,43 @@
 
 
       const q =
-
         l < 0.5
-
           ? l * (1 + s)
-
           : l + s - l * s;
 
 
       const p =
-
         2 * l - q;
 
 
-      r =
-
+      const r =
         hue2rgb(
-
           p,
-
           q,
-
           h + 1 / 3
-
         );
 
 
-      g =
-
+      const g =
         hue2rgb(
-
           p,
-
           q,
-
           h
-
         );
 
 
-      b =
-
+      const b =
         hue2rgb(
-
           p,
-
           q,
-
           h - 1 / 3
-
         );
 
 
       return [
-
         r,
-
         g,
-
         b
-
       ];
 
     }
